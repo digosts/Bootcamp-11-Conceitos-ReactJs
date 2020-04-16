@@ -19,18 +19,21 @@ function App() {
   async function handleAddRepository(e) {
     e.preventDefault();
 
-    const arrayTechs = techs.split(',');
+    const arrayTechs = [];
+
+    try{
+      arrayTechs = techs.split(',');
+      setTechs(arrayTechs);
+    }catch(e){}
 
     const data = {
-      title,url, techs:arrayTechs
+      title,url,techs
     }
 
     try{
       const response = await api.post('/repositories', data);
 
       const repositorie =  response.data;
-
-      alert('Cadastro realizado com sucesso!');
 
       setRepositories([
         ...repositories, repositorie
@@ -40,7 +43,7 @@ function App() {
       setUrl('');
       setTechs([]);
     }catch(e){
-      alert('Erro ao tentar realizar o cadastro!');
+      console.log({error: e});
     }
   }
 
